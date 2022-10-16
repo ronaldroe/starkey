@@ -1,0 +1,34 @@
+{
+  "altConfigPath": "./starkey.config.json",
+  "pluginPath": "./plugins",
+  "logs": {
+    "types": {
+      "firehose": {
+        "path": "./logging/firehose.log",
+        "format": "json"
+      },
+      "error": {
+        "path": "./logging/error.log",
+        "format": "json"
+      },
+      "custom": {
+        "path": "./logging/custom.log",
+        "format": "json"
+      }
+    },
+    "config": {
+      "toStdOut": true,
+      "toStdErr": true,
+      "firehoseAll": true
+    }
+  },
+  "security": {
+    "user": {
+      "strategy": "local"
+    }
+  },
+  "database": {
+    "path": "./data/starkey.db",
+    "type": "SQLite"
+  }
+}
