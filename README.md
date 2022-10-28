@@ -13,7 +13,7 @@ StarKey uses data connectors to allow for any database to be used. On initializa
 
 Identity and access management (IAM) is provided via an abstraction class that implements Passport and Express Session with configurable strategies. Out of the box, StarKey offers local, Google, and Facebook strategies. Additional strategies can be configured, including custom strategies.
 
-Logging is handled by a logger class, which calls a logging service to perform writes asynchronously. `Not implemented yet. I changed how I was going to do this after I already implemented the basic logging class. I may keep the existing solution as an option`. Logging can utilize log files or a database, and can output to Logstash.
+Logging is handled by a logger class, which calls a logging service to perform writes synchronously. `Not implemented yet. I changed how I was going to do this after I already implemented the basic logging class. I may keep the existing solution as an option`. Logging can utilize log files or a database, and can output to Logstash.
 
 ## Installation
 
@@ -38,6 +38,23 @@ Or, use StarKey as an abstraction library for common application tasks, like log
 import { Logger } from 'starkey';
 
 Logger.error('error message here');
+
+// or
+
+const logger = new Logger();
+logger.log('Log a message or event');
+
+// or
+
+class ApplicationClass extends Logger {
+  // Class stuff
+}
+
+const app = new ApplicationClass();
+
+app.log('Now my class has logging methods');
+
+ApplicationClass.log('Including static ones');
 ```
 
 or access configuration values:
@@ -46,6 +63,25 @@ or access configuration values:
 import { Loader } from 'starkey';
 
 Loader.getConfig('database.type');
+
+// or
+
+const loader = new Loader();
+loader.getConfig('logs.config.toStdOut');
+
+// or
+
+class ApplicationClass extends Logger {
+  // Class stuff
+}
+
+const app = new ApplicationClass();
+
+app.writeConfig({
+  'altConfigPath': '~/myconfig.yaml'
+});
+
+const dbPath = ApplicationClass.getConfig('database.path');
 ```
 
 ## API Reference
