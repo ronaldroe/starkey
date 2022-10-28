@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx nodemon --experimental-fetch index.js",
     "serve": "npx nodemon --experimental-fetch server.js",
-    "documentation:generate": "echo 'this just ran'"
+    "documentation:generate": "node .git/hooks/generate-docs.js"
   },
   "engines": {
     "npm": ">=7.0.0",
