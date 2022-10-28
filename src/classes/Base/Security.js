@@ -1,3 +1,4 @@
+import Express from 'express';
 import Session from 'express-session';
 import Passport from 'passport';
 import { Many } from 'ts-mixer';
@@ -11,9 +12,9 @@ import SecurityError from './Error.js';
 /**
  * Provides security interface layer
  * 
- * @return Security
+ * @returns Security
  */
-export default class Security extends Many(Session, Passport) {
+export default class Security extends Many(Express, Session, Passport) {
   strategies = {
     default: 'local',
     local,

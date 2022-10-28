@@ -2,14 +2,20 @@ import { writeFile, readFileSync, existsSync } from 'fs';
 import Loader from './Loader.js';
 
 /**
- * Class that logs to the requested log.
- * 
- * @param {Object} [Obj={}] Settings for the logging system.
+ * Class that logs to the requested log destination
  */
 export default class Logger {
   static firehosePath = Loader.getConfig('logs.types.firehose.path');
   static errorPath = Loader.getConfig('logs.types.error.path');
 
+  /**
+   * @param {?Object} [config={}] Global config and defaults will be set if not passed
+   * @param {?Boolean} [config.firehoseAll=true] If not passed, checks global config, then falls back to true
+   * @param {?Boolean} [config.toStdOut=true] If not passed, checks global config, then falls back to true
+   * @param {?Boolean} [config.toStdErr=true] If not passed, checks global config, then falls back to true
+   * 
+   * @returns {Logger}
+   */
   constructor (
     {
       firehoseAll,
@@ -27,7 +33,7 @@ export default class Logger {
   /**
    * @param {Object} input input data to log
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   static log(input) {
     let currentLog = [];
@@ -54,7 +60,7 @@ export default class Logger {
    * @param {Object} input input data to log as error
    * @param {?Boolean} [toFirehose=true] whether the input will be logged to the firehose as well
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   static error(input, toFirehose = Logger.firehoseAll) {
     // If we're logging to the firehose, do it
@@ -87,7 +93,7 @@ export default class Logger {
    * @param {string} [name='custom'] name of custom log's config name. Default: 'custom'
    * @param {?Boolean} [toFirehose=true] whether the input will be logged to the firehose as well
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   static logCustom(input, name = 'custom', toFirehose = Logger.firehoseAll) {
     // If we're logging to the firehose, do it
@@ -122,7 +128,7 @@ export default class Logger {
   /**
    * @param {Object} input input data to log
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   log(input) {
     return Logger.log(input);
@@ -132,7 +138,7 @@ export default class Logger {
    * @param {Object} input input data to log as error
    * @param {?Boolean} [toFirehose=true] whether the input will be logged to the firehose as well
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   error(input, toFirehose = this.firehoseAll) {
     return Logger.error(input, toFirehose);
@@ -143,7 +149,7 @@ export default class Logger {
    * @param {string} [name='custom'] name of custom log's config name. Default: 'custom'
    * @param {?Boolean} [toFirehose=true] whether the input will be logged to the firehose as well
    * 
-   * @returns undefined
+   * @returns {undefined}
    */
   logCustom(input, name = 'custom', toFirehose = this.firehoseAll) {
     return Logger.logCustom(input, Loader.getConfig(`logs.${name}`), toFirehose);
