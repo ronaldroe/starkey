@@ -63,7 +63,7 @@ Writes a configuration object to file
 
 **Example**  
 ```js
-<code>`loader.writeConfig(Loader.merge(loader.getConfig(), configChangeObj));`</code>
+`loader.writeConfig(Loader.merge(loader.getConfig(), configChangeObj));`
 ```
 <a name="generateConfig"></a>
 

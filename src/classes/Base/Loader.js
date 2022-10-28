@@ -100,7 +100,7 @@ class Loader {
    * 
    * @param {object} configObj Complete config object to be written. If you need to merge a subset of
    * config changes, this class exposes lodash's merge function as a static method.
-   * @example <code>`loader.writeConfig(Loader.merge(loader.getConfig(), configChangeObj));`</code>
+   * @example `loader.writeConfig(Loader.merge(loader.getConfig(), configChangeObj));`
    * @param {string?} [configPath=Loader.configPath] 
    * @returns {undefined}
    */
