@@ -1,6 +1,5 @@
-import DataAccessObject from "./src/classes/Data/DataAccessObject.js";
+import Loader from "./src/classes/Base/Loader.js";
 
 (async () => {
-  const DAO = new DataAccessObject();
-  console.log(DAO.connect())
+  const load = new Loader();
 })();

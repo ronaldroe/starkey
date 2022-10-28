@@ -1,9 +1,25 @@
 import { Loader } from "../../Base/index.js";
 import DatabaseError from '../../Base/Error.js';
 
-import lodash from 'lodash';
-const { intersection } = lodash;
+import { intersection } from "../../../helpers/index.js";
 
+/**
+ * Connector base class. A database agnostic base class for database connectors. Provides basic user authorization,
+ * read/write flag. Checks for implementation of 1 connect and 4 CRUD methods, which must be implemented in the
+ * child connector. JSDOCs are written assuming SQL.
+ * @class
+ * 
+ * @property dataPath Path to database data files
+ * @method compareDAOProps
+ * @method connect
+ * @method delete
+ * @method exec
+ * @method getReadOnly
+ * @method insert
+ * @method read
+ * @method throwDBError
+ * @method update
+ */
 export default class Connector {
   dataPath = Loader.getConfig('database.path');
   #shouldReadOnly = false;

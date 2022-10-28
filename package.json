@@ -1,11 +1,12 @@
 {
   "name": "cms",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon --experimental-fetch index.js",
-    "serve": "npx nodemon --experimental-fetch server.js"
+    "serve": "npx nodemon --experimental-fetch server.js",
+    "documentation:generate": "echo 'this just ran'"
   },
   "engines": {
     "npm": ">=7.0.0",
@@ -27,7 +28,8 @@
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-local": "^1.0.0",
-    "ts-mixer": "^6.0.1"
+    "ts-mixer": "^6.0.1",
+    "yaml": "^2.1.3"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^7.1.1",

@@ -4,10 +4,15 @@ import SQLite from "better-sqlite3";
 
 /**
  * Connector for use with SQLite. On startup, converts all queries to prepared statements ready for execution.
+ * @class
  * 
- * @param {Boolean} userAuthd If true, enables write access
- * 
- * @returns {SQLiteConnector}
+ * @extends Connector
+ * @private {SQLite} sqlite
+ * @private {SQLiteConnector} connection
+ * @property {Function} insert
+ * @property {Function} select
+ * @property {Function} get
+ * @property {Function} exec
  */
 export default class SQLiteConnector extends Connector {
   #sqlite = SQLite;
@@ -19,12 +24,18 @@ export default class SQLiteConnector extends Connector {
   get = this.read;
   run = this.exec;
 
+  /**
+   * SQLiteConnector class
+   * 
+   * @param {Boolean} userAuthd If true, enables write access
+   */
   constructor(userAuthd = false) {
     super(userAuthd);
   }
 
   /**
    * Sets the connection object
+   * @method connect
    * 
    * @returns {SQLiteConnector}
    */
@@ -41,6 +52,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Returns the connection object
+   * @method getConnection
    * 
    * @returns {Object} connection object
    */
@@ -50,6 +62,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Executes DQL queries
+   * @method read
    * 
    * @param {string} inputQuery Parameterized query input, i.e.: SELECT * FROM Table WHERE field = ?
    * @param {Array|Object} [values=[]] values for parameterized query
@@ -65,6 +78,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Executes DML INSERT queries
+   * @method create
    * 
    * @param {string} inputQuery Parameterized query input, i.e.: INSERT INTO Table (field) VALUES (?)
    * @param {Array|Object} values values for parameterized query
@@ -81,6 +95,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Executes DML UPDATE queries
+   * @method update
    * 
    * @param {string} inputQuery Parameterized query input, i.e.: UPDATE Table SET field = ? WHERE otherField = ?
    * @param {Array|Object} values values for parameterized query
@@ -97,6 +112,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Executes DML DELETE queries
+   * @method delete
    * 
    * @param {string} inputQuery Parameterized query input, i.e.: DELETE FROM Table WHERE field = ?
    * @param {Array|Object} values values for parameterized query
@@ -113,6 +129,7 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Executes a query as a prepared statement
+   * @method exec
    * 
    * @param {string} inputQuery Parameterized query input
    * @param {Array|Object} values values for parameterized query
@@ -127,11 +144,14 @@ export default class SQLiteConnector extends Connector {
 
   /**
    * Static helper method that can build simple select queries programatically
+   * @method buildSimpleSelect
+   * @static
    * 
    * @param {string} tableName Name of the db table
    * @param {?string[]} [description=['*']] Array of strings containing field names. Does not support subqueries. Aliases should be included in the string "foo AS bar"
    * @example description = ['first_name', 'last_name']
-   * @param {?Object[]} [wheres] Object containing field, type and value of each where clause input. 
+   * @param {?Object[]} [wheres] Object containing field, type and value of each where clause input.
+   * @param {string} wheres[].field Field name
    * @param {?string} [wheres[].type='='] Must be one of ['=', 'LIKE', 'IN']
    * @param {any|any[]} wheres[].value If type is 'IN', this must be an array
    * @example wheres = [{ field: 'first_name', type: 'LIKE', value: '%John%' }, { field: 'ID', type: 'IN', value: [1, 2, 3]}]
