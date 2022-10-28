@@ -2,7 +2,10 @@ import { writeFile, readFileSync, existsSync } from 'fs';
 import Loader from './Loader.js';
 
 /**
- * Class that logs to the requested log destination
+ * @classdesc Class that logs to the requested log destination
+ *
+ * @name Logger
+ * @class
  */
 export default class Logger {
   static firehosePath = Loader.getConfig('logs.types.firehose.path');

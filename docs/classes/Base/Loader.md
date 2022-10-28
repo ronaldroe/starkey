@@ -1,3 +1,10 @@
+## Classes
+
+<dl>
+<dt><a href="#Loader">Loader</a></dt>
+<dd></dd>
+</dl>
+
 ## Functions
 
 <dl>
@@ -18,6 +25,32 @@ with an optional configuration.</p>
 <dd><p>Returns the config object as a JSON serialized string. This is a stub for future work, but needed soon</p>
 </dd>
 </dl>
+
+<a name="Loader"></a>
+
+## Loader
+**Kind**: global class  
+
+* [Loader](#Loader)
+    * [new Loader()](#new_Loader_new)
+    * [.getPluginsByType([path])](#Loader+getPluginsByType)
+
+<a name="new_Loader_new"></a>
+
+### new Loader()
+Loader class
+
+<a name="Loader+getPluginsByType"></a>
+
+### loader.getPluginsByType([path])
+Retrieves plugin classes and exports as an object with the plugin's class name as its key.
+All plugins are loaded into memory on startup
+
+**Kind**: instance method of [<code>Loader</code>](#Loader)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [path] | <code>string</code> | <code>&quot;&#x27;*&#x27;&quot;</code> | plugin type path. Must be one of ['*', 'connectors', 'TBD'] |
 
 <a name="getConfig"></a>
 

@@ -1,3 +1,11 @@
+## Classes
+
+<dl>
+<dt><a href="#DataAccessObject">DataAccessObject</a> ⇐ <code>Connectors</code></dt>
+<dd><p>Data access layer. Sits in front of the connector.</p>
+</dd>
+</dl>
+
 ## Functions
 
 <dl>
@@ -9,6 +17,13 @@
 </dd>
 </dl>
 
+<a name="DataAccessObject"></a>
+
+## DataAccessObject ⇐ <code>Connectors</code>
+Data access layer. Sits in front of the connector.
+
+**Kind**: global class  
+**Extends**: <code>Connectors</code>  
 <a name="getPluginConnectors"></a>
 
 ## getPluginConnectors() ⇒ <code>object</code>

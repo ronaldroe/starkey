@@ -1,7 +1,10 @@
 import Logger from "./Logger.js";
 
 /**
- * Error class for custom error handling
+ * @classdesc Error class for custom error handling
+ *
+ * @name StarkeyError
+ * @class
  * 
  * @extends Error
  */

@@ -2,10 +2,7 @@
 
 <dl>
 <dt><a href="#update">update()</a></dt>
-<dd><p>Connector base class. A database agnostic base class for database connectors. Provides basic user authorization,
-read/write flag. Checks for implementation of 1 connect and 4 CRUD methods, which must be implemented in the
-child connector. JSDOCs are written assuming SQL.</p>
-</dd>
+<dd></dd>
 <dt><a href="#getReadOnly">getReadOnly()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Returns current read only status</p>
 </dd>
@@ -38,10 +35,6 @@ child connector. JSDOCs are written assuming SQL.</p>
 <a name="update"></a>
 
 ## update()
-Connector base class. A database agnostic base class for database connectors. Provides basic user authorization,
-read/write flag. Checks for implementation of 1 connect and 4 CRUD methods, which must be implemented in the
-child connector. JSDOCs are written assuming SQL.
-
 **Kind**: global function  
 **Properties**
 

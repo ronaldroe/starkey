@@ -6,7 +6,10 @@ import { merge } from '../../helpers/index.js';
 const LoaderError = Error;
 
 /**
- * Configuration loader and retrieval class
+ * @classdesc Configuration loader and retrieval class
+ *
+ * @name Loader
+ * @class
  * 
  * @property {string} appDir Working directory
  * @private {object} config object

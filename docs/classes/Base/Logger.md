@@ -1,3 +1,11 @@
+## Classes
+
+<dl>
+<dt><a href="#Logger">Logger</a></dt>
+<dd><p>Class that logs to the requested log destination</p>
+</dd>
+</dl>
+
 ## Functions
 
 <dl>
@@ -15,6 +23,12 @@
 <dd></dd>
 </dl>
 
+<a name="Logger"></a>
+
+## Logger
+Class that logs to the requested log destination
+
+**Kind**: global class  
 <a name="log"></a>
 
 ## log(input) ⇒ <code>undefined</code>

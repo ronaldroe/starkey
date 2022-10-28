@@ -10,9 +10,15 @@ import Loader from './Loader.js';
 import SecurityError from './Error.js';
 
 /**
- * Provides security interface layer
  * 
- * @returns Security
+ * @classdesc Provides security interface layer
+ *
+ * @name Security
+ * @class
+ * 
+ * @extends Express
+ * @extends Session
+ * @extends Passport
  */
 export default class Security extends Many(Express, Session, Passport) {
   strategies = {

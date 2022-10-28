@@ -1,7 +1,10 @@
 import { Base } from '../Base';
 
 /**
- * Base user class. Can be used for non-secured assets/endpoints.
+ * @classdesc Base user class. Can be used for non-secured assets/endpoints.
+ *
+ * @name User
+ * @class
  * 
  * @extends {Base}
  */

@@ -4,9 +4,11 @@ import DatabaseError from '../../Base/Error.js';
 import { intersection } from "../../../helpers/index.js";
 
 /**
- * Connector base class. A database agnostic base class for database connectors. Provides basic user authorization,
+ * @classdesc Connector base class. A database agnostic base class for database connectors. Provides basic user authorization,
  * read/write flag. Checks for implementation of 1 connect and 4 CRUD methods, which must be implemented in the
  * child connector. JSDOCs are written assuming SQL.
+ * 
+ * @name Connector
  * @class
  * 
  * @property dataPath Path to database data files

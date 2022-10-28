@@ -3,7 +3,9 @@ import Connector from "./Connector.js";
 import SQLite from "better-sqlite3";
 
 /**
- * Connector for use with SQLite. On startup, converts all queries to prepared statements ready for execution.
+ * @classdesc Connector for use with SQLite. On startup, converts all queries to prepared statements ready for execution.
+ *
+ * @name SQLiteConnector
  * @class
  * 
  * @extends Connector
