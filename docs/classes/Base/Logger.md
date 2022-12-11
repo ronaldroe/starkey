@@ -13,13 +13,13 @@
 <dd></dd>
 <dt><a href="#error">error(input, [toFirehose])</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
-<dt><a href="#logCustom">logCustom(input, [name], [toFirehose])</a> ⇒ <code>undefined</code></dt>
+<dt><a href="#logCustom">logCustom(input, [name], [toFirehose], [toError])</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
 <dt><a href="#log">log(input)</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
 <dt><a href="#error">error(input, [toFirehose])</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
-<dt><a href="#logCustom">logCustom(input, [name], [toFirehose])</a> ⇒ <code>undefined</code></dt>
+<dt><a href="#logCustom">logCustom(input, [name], [toFirehose], [toError])</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
 </dl>
 
@@ -46,11 +46,11 @@ Class that logs to the requested log destination
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | input | <code>Object</code> |  | input data to log as error |
-| [toFirehose] | <code>Boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
+| [toFirehose] | <code>boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
 
 <a name="logCustom"></a>
 
-## logCustom(input, [name], [toFirehose]) ⇒ <code>undefined</code>
+## logCustom(input, [name], [toFirehose], [toError]) ⇒ <code>undefined</code>
 **Kind**: global function  
 
 | Param | Type | Default | Description |
@@ -58,6 +58,7 @@ Class that logs to the requested log destination
 | input | <code>Object</code> |  | input data to log |
 | [name] | <code>string</code> | <code>&quot;&#x27;custom&#x27;&quot;</code> | name of custom log's config name. Default: 'custom' |
 | [toFirehose] | <code>Boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
+| [toError] | <code>Boolean</code> | <code>false</code> | whether the input should be logged as an error |
 
 <a name="log"></a>
 
@@ -76,16 +77,17 @@ Class that logs to the requested log destination
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | input | <code>Object</code> |  | input data to log as error |
-| [toFirehose] | <code>Boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
+| [toFirehose] | <code>boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
 
 <a name="logCustom"></a>
 
-## logCustom(input, [name], [toFirehose]) ⇒ <code>undefined</code>
+## logCustom(input, [name], [toFirehose], [toError]) ⇒ <code>undefined</code>
 **Kind**: global function  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | input | <code>Object</code> |  | input data to log |
 | [name] | <code>string</code> | <code>&quot;&#x27;custom&#x27;&quot;</code> | name of custom log's config name. Default: 'custom' |
-| [toFirehose] | <code>Boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
+| [toFirehose] | <code>boolean</code> | <code>true</code> | whether the input will be logged to the firehose as well |
+| [toError] | <code>boolean</code> | <code>false</code> | whether the input should be logged to the error log |
 

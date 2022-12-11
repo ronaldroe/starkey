@@ -1,0 +1,44 @@
+altConfigPaths:
+  - "./starkey.yaml"
+plugins:
+  # May be an array of individual plugins (include path)
+  - CustomPlugin:
+    path: "./plugins/CustomPlugin.js"
+  - CustomPlugin2:
+    path: "./customPlugins/CustomPlugin2.js"
+  # OR an array of paths
+  - "./plugins/index.js" # Will import all exports
+  - "./customPlugins/index.js" # Will import all exports
+logs:
+  types:
+    firehose:
+      path: "./logging/firehose.log"
+      format: "json"
+    error:
+      path: "./logging/error.log"
+      format: "json"
+    custom:
+      path: "./logging/custom.log"
+      format: "json"
+  config:
+    toStdOut: true
+    toStdErr: true
+    firehoseAll: true
+security:
+  user:
+    # One of ['local', 'google', 'facebook'] or a custom strategy name,
+    # which must match the strategy's class name
+    strategy: "local"
+database:
+  queryPaths:
+    - "./queries"
+  path: "./data/starkey.db"
+  type: SQLite # The class name of the connector module
+events:
+  # type must be one of "nats", "node", "hybrid" (emits on both nats and node), or "custom".
+  # If custom, a name is required. name is the class name of the custom event bus module
+  type: "nats"
+  # name: "CustomEventBus"
+  server:
+    address: "localhost"
+    port: 4222
