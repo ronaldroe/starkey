@@ -6,9 +6,9 @@ plugins:
     path: "./plugins/CustomPlugin.js"
   - CustomPlugin2:
     path: "./customPlugins/CustomPlugin2.js"
-  # OR an array of paths
-  - "./plugins/index.js" # Will import all exports
-  - "./customPlugins/index.js" # Will import all exports
+  ##### OR an array of paths #####
+  # - "./plugins/index.js" # Will import all exports
+  # - "./customPlugin/CustomPlugin.js" # Will import the default export and use the filename
 logs:
   types:
     firehose:
@@ -30,10 +30,12 @@ security:
     # which must match the strategy's class name
     strategy: "local"
 database:
-  queryPaths:
-    - "./queries"
-  path: "./data/starkey.db"
-  type: SQLite # The class name of the connector module
+  ### For SQLite ###
+  type: "sqlite" # The class name of the connector module
+  path: "./data/starkey.db" # only used with SQLite. Use ":memory:" or leave blank to for a non-persisted db.
+  ### For non-SQLite ###
+  # host: "localhost"
+  # port: 3306
 events:
   # type must be one of "nats", "node", "hybrid" (emits on both nats and node), or "custom".
   # If custom, a name is required. name is the class name of the custom event bus module

@@ -19,41 +19,50 @@ class Loader {
   static configPath = process.env.STARKEY_CONFIG_PATH ?? `${Loader.appDir}/starkey.yaml`;
   #config = YAML.parse(readFileSync(Loader.configPath, { encoding: 'utf-8' }).toString());
   static merge = merge;
+  static resolve = resolve;
 
   /**
-   * Loader class
+   * Provides loading for config and static files
+   * 
+   * @param {string[]|null} [altConfigPaths=null] Paths to alternate configuration
    */
-  constructor(altConfigPath = null) {
-    altConfigPath = altConfigPath ?? resolve(this.#config.altConfigPath);
-    const altConfig = YAML.parse(readFileSync(altConfigPath, { encoding: 'utf-8' }).toString());
+  constructor(altConfigPaths = null) {
+    altConfigPaths = altConfigPaths ?? this.#config.altConfigPaths.map((path) => resolve(path));
+    console.log(altConfigPaths);
+    const altConfigs = altConfigPaths.map((path) => YAML.parse(readFileSync(path, { encoding: 'utf-8' }).toString()));
 
-    this.#config = merge(this.#config, altConfig);
-    console.log(JSON.stringify(this.#config, null, 2));
+    this.#config = this.generateConfig([this.#config, ...altConfigs]);
   }
 
   /**
    * Get requested config by path.
    * @method getConfig
    * 
-   * @param {string} [path='*'] Dot-separated path to the requested data. Default "*", returns entire config object. Input must exist on the object
+   * @param {string|string[]} [path='*'] Array or dot-separated path to the requested data. Default "*", returns entire config object. Input must exist on the object
    * @example path = 'database.type'
+   * @example path = ['database', 'type']
    * 
-   * @returns {any|null} Requested config setting(s)
+   * @returns {any|null} Requested config setting(s) or null if the config could not be found
    */
   getConfig(path = '*') {
-    // * represents the entire config
-    if (path === '*') {
+    // * represents the entire config. If it's a string, that character will be the 0th index of it,
+    // so this will catch it regardless of whether it's an array.
+    if (path[0] === '*') {
       return this.#config;
+    }
+
+    // If it's not an array, make it one
+    if (!Array.isArray(path)) {
+      path = path.split('.');
     }
 
     // We aren't looking for the whole object, so go find what we want
     try{
-      const pathArray = path.split('.');
-      return this.recurseConfigPath(pathArray, this.#config);
+      return this.recurseConfigPath(path, this.#config);
     } catch (e) {
       // Don't exit, just log and return null
       console.error(e);
-      console.error(`Path '${path}' could not be found`);
+      console.error(`Path '${path.join('.')}' could not be found`);
       return null;
     }
   }
@@ -63,7 +72,9 @@ class Loader {
    * @method getConfig
    * @static
    * 
-   * @param {string} [path='*'] Path to the requested data. Default "*", returns entire config object. Input must exist on the object
+   * @param {string|string[]} [path='*'] Array or dot-separated path to the requested data. Default "*", returns entire config object. Input must exist on the object
+   * @example path = 'database.type'
+   * @example path = ['database', 'type']
    * 
    * @returns {any|null} Requested config setting(s)
    */
@@ -101,10 +112,10 @@ class Loader {
    * Writes a configuration object to file
    * @method writeConfig
    * 
-   * @param {object} configObj Complete config object to be written. If you need to merge a subset of
-   * config changes, this class exposes lodash's merge function as a static method.
+   * @param {object} configObj Complete config object to be written. 
    * @example loader.writeConfig(Loader.merge(loader.getConfig(), configChangeObj));
-   * @param {string?} [configPath=Loader.configPath] 
+   * @param {string} [configPath=Loader.configPath]
+   * 
    * @returns {undefined}
    */
   writeConfig(configObj, configPath = Loader.configPath) {
@@ -127,57 +138,31 @@ class Loader {
    * with an optional configuration.
    * @method generateConfig
    * 
-   * @param {object?} [configObj={}] Configuration object to be merged with the default config.
+   * @param {Object|Object[]} [configObj={}] Configuration object to be merged with the default config.
    * If omitted, will return the default config
-   * @param {boolean?} [asObject=true] If true or omitted, returns JavaScript object. If false, returns yaml string
+   * @param {boolean} [asObject=true] If true or omitted, returns JavaScript object. If false, returns yaml string
+   * @param {boolean} [fromDefault=true] Whether to include the default config as a base config or use the in-memory config
+   * 
    * @returns {object|string} 
    */
-  generateConfig(configObj = {}, asObject = true) {
-    const defaultConfig = {
-      altConfigPath: "./starkey.yaml",
-      pluginPath: "./plugins",
-      logs: {
-        types: {
-          firehose: {
-            path: "./logging/firehose.log",
-            format: "json"
-          },
-          error: {
-            path: "./logging/error.log",
-            format: "json"
-          },
-          custom: {
-            path: "./logging/custom.log",
-            format: "json"
-          }
-        },
-        config: {
-          toStdOut: true,
-          toStdErr: true,
-          firehoseAll: true
-        }
-      },
-      security: {
-        user: {
-          strategy: "local"
-        }
-      },
-      database: {
-        queryPaths: [
-          "./queries"
-        ],
-        path: "./data/starkey.db",
-        type: "SQLite"
-      }
+  generateConfig(configObjs = {}, asObject = true, fromDefault = true) {
+    const defaultConfig = fromDefault
+      ? YAML.parse(readFileSync(`${Loader.appDir}/starkey.yaml.default`, { encoding: 'utf-8' }).toString())
+      : this.#config;
+
+    let configOutput = configObjs;
+
+    if (Array.isArray(configObjs)) {
+      configOutput = merge(...configObjs);
     }
 
-    configObj = merge(defaultConfig, configObj);
+    configOutput = merge(defaultConfig, configOutput);
 
     if (asObject) {
-      return configObj;
+      return configOutput;
     }
 
-    return YAML.stringify(configObj);
+    return YAML.stringify(configOutput);
   }
 
   /**
@@ -194,24 +179,25 @@ class Loader {
    * Retrieves plugin classes and exports as an object with the plugin's class name as its key.
    * All plugins are loaded into memory on startup
    * 
-   * @param {string} [path='*'] plugin type path. Must be one of ['*', 'connectors', 'TBD']
+   * @param {string} [type='*'] plugin type. Must be one of ['*', 'connectors', 'TBD']
+   * @param {boolean} [forceReload=false] Force plugins to be loaded from disk
+   * 
+   * @returns {object}
    */
-  getPluginsByType(path = '*') {
-    if (!this.plugins) {
-      return this.getPluginsFromFile(path);
+  getPluginsByType(type = '*', forceReload = false) {
+    if (!this.plugins || forceReload) {
+      this.plugins = this.getPluginsFromFile(type);
+      return this.plugins;
     }
 
-    const pluginPath = this.getConfig('pluginPath');
-    const pluginDirObj = this.getDirectoryPaths(pluginPath);
-
-    return this.getPluginsFromMemory(path);
+    return this.getPluginsFromMemory(type);
   }
 
-  getPluginsFromFile(path = '*') {
+  getPluginsFromFile(type = '*') {
 
   }
 
-  getPluginsFromMemory(path = '*') {
+  getPluginsFromMemory(type = '*') {
 
   }
 }

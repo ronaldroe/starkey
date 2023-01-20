@@ -15,7 +15,9 @@ const fileSysFuncs = [
 ]
 
 /**
- * @classdesc Provides an interface for accessing and retrieving static files from the local FS
+ * @classdesc Provides an interface for accessing and retrieving static files from the local fs.
+ * Node's writeFile, readFile, readdir and exists are all available as methods on this class in
+ * both their synchronous and promise-based versions.
  *
  * @name DiskAccessObject
  * @class
@@ -28,22 +30,10 @@ export default class DiskAccessObject {
 
   /**
    * Attaches file system functions to the object
+   * 
+   * @returns {undefined}
    */
   attachFileSysFuncs() {
-    fileSysFuncs.forEach((func) => {
-      this[func.name] = func;
-    });
-  }
-
-  /**
-   * Reads and returns the contents of a directory
-   * 
-   * @param {string} path path to be loaded from
-   * @param {boolean} recurse whether to recurse into child folders
-   */
-  readDirectory(path = Loader.appPath, recurse = false) {
-    if (!existsSync(path)) {
-      throw new DiskAccessObjectError(`Path '${path}' does not exist or you do not have permission to read it`);
-    }
+    fileSysFuncs.forEach((func) => this[func.name] = func);
   }
 }

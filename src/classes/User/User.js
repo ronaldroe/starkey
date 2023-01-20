@@ -10,7 +10,7 @@ import { Base } from '../Base';
  */
 export default class User extends Base {
   /**
-   * @param {?number} [userId=0]
+   * @param {number} [userId=0]
    * 
    * @returns {User}
    */
